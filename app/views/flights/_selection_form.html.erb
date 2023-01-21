@@ -1,0 +1,33 @@
+<% unless @departure_airport.blank? && @arrival_airport.blank? && @departure_date.blank? %>
+    <% if @searched_flights.present? %>
+      <div class="result__container">
+
+      <%= form_with(model: @flight, url: new_booking_path, method: "get") do |form| %>
+        <%= form.hidden_field :num_of_passengers, value: @num_of_passengers %>
+            <h4 class="results"><%= "Search results" %></h4>
+            <h5><%= "#{pluralize(@searched_flights.count, "flight")} available
+                  for #{@searched_flights.first.departure_date_formatted}" %></h5>
+            <% @searched_flights.each do |flight| %>
+            <div class="list__container">
+                        <%= form.radio_button :flight_id, flight.id,
+                                              class: "form-check-input border-secondary" %>
+
+                            <%= "#{flight.departure_airport.city}
+                                (#{flight.departure_airport.code}) to
+                                #{flight.arrival_airport.city}
+                                (#{flight.arrival_airport.code})" %>
+                              <%= "Departure: #{flight.departure_time_formatted}" %>
+                              <%= "Duration: #{flight.duration.to_i} hours" %>
+                              </div>
+
+          <% end %>
+              <%= form.submit "Book", class: "button" %>
+          </div>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="error">
+          <h4>No flights found, please try again  ☹️  </h4>
+        </div>
+    <% end %>
+<% end %>

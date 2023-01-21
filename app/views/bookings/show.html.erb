@@ -1,0 +1,31 @@
+<div class="show__container ">
+    <div class="booking__container">
+      <h4>Your flight has been booked!</h4>
+        <div class="success__booking">
+        <h4><%= "#{@booking.flight.departure_airport.city} (#{@booking.flight.departure_airport.code}) to#{@booking.flight.arrival_airport.city} (#{@booking.flight.arrival_airport.code})" %></h4>
+        <p><%= "Departure: #{@booking.flight.departure_date_formatted} - #{@booking.flight.departure_time_formatted}" %></p>
+        <p><%= "Duration: #{@booking.flight.duration.to_i} hours" %> </p>
+        <p><%= "Flight Number: #{@booking.flight.id}" %></p>
+        </div>
+    </div>
+
+    <% @booking.passengers.each_with_index do |passenger, passenger_number| %>
+    <div class="passenger__wrapper">
+        <% if @booking.passengers.count > 1 %>
+          <h4><%= "Passenger #{passenger_number + 1} Information" %></h4>
+        <% else %>
+          <h4><%= "Passenger Information" %></h4>
+        <% end %>
+        <div class="Information">
+          <h3><%= "Name:" %></h3>
+          <p><%= passenger.name.titleize %></p>
+        </div>
+
+        <div class="Information">
+          <h3><%= "Email:" %></h3>
+          <p><%= passenger.email %></p>
+        </div>
+      <% end %>
+       </div>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+<%= form_with model: @booking do |form| %>
+  <% if @booking.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@booking.errors.count, "error") %> prohibited this booking from being created:</h2>
+      <ul>
+        <% @booking.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="booking__container">
+    <div class="success__booking">
+        <h4>
+          <%= "#{@flight.departure_airport.city} (#{@flight.departure_airport.code}) to
+              #{@flight.arrival_airport.city} (#{@flight.arrival_airport.code})" %>
+        </h4>
+        <p><%= "Departure: #{@flight.departure_date_formatted} - #{@flight.departure_time_formatted}" %></p>
+
+       <p> <%= "Duration: #{@flight.duration.to_i} hours" %></p>
+
+        <p> <%= "Flight Number: #{@flight.id}" %></p>
+
+    </div>
+    <div class="passenger__wrapper">
+    <% (1..@num_of_passengers.to_i).each do |passenger_number| %>
+      <div class="passenger__container">
+        <% if @num_of_passengers.to_i > 1 %>
+          <h4><%= "Passenger #{passenger_number} Information" %></h4>
+        <% else %>
+          <h4><%= "Passenger Information" %></h4>
+        <% end %>
+
+        <%= form.fields_for :passengers do |sub_form|  %>
+          <%= form.hidden_field :flight_id, value: @flight.id %>
+          <div class="fields">
+            <%= sub_form.label :name %>
+            <%= sub_form.text_field :name, placeholder:"Passenger name" %>
+          </div>
+          <div class="fields">
+            <%= sub_form.label :email %>
+            <%= sub_form.email_field :email, placeholder:"kiyo@example.com" %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+        <%= form.submit "Purchase Flight", class: "button" %>
+        <%= link_to "Back", root_path, class: "back" %>
+  </div>
+<% end %>

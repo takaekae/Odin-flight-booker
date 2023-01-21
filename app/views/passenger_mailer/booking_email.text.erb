@@ -1,0 +1,5 @@
+Your flight has been booked!
+<%= "#{@booking.flight.departure_airport.code} to #{@booking.flight.arrival_airport.code}" %>
+<%= "Date: #{@booking.flight.departure_date_formatted}"%>
+<%= "Time: #{@booking.flight.departure_time_formatted}"%>
+<%= "Duration: #{@booking.flight.duration.to_i} hours"%>
